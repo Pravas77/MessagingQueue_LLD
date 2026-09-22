@@ -13,13 +13,13 @@ public class Subscriber implements Runnable {
         this.offset = new AtomicInteger(0);
     }
 
-    public void run(){
+    public void run() {
 
-        synchronized (moniter) {
+        List<String> messages = topic.getMessages();
+        while (true) {
 
-            List<String> messages = topic.getMessages();
-            while (true) {
 
+            synchronized (moniter) {
                 while (offset.get() >= messages.size()) {
                     try {
                         moniter.wait();
@@ -27,19 +27,20 @@ public class Subscriber implements Runnable {
                         throw new RuntimeException(e);
                     }
                 }
-
-                int currentIndex = offset.get();
-                consume(messages.get(currentIndex));
-                offset.compareAndSet(currentIndex, currentIndex + 1);
-
             }
+
+
+            int currentIndex = offset.get();
+            consume(messages.get(currentIndex));
+            offset.compareAndSet(currentIndex, currentIndex + 1);
+
         }
 
     }
 
 
-    public void wakeUp(){
-        synchronized (moniter){
+    public void wakeUp() {
+        synchronized (moniter) {
             moniter.notify();
         }
     }
@@ -55,7 +56,7 @@ public class Subscriber implements Runnable {
     }
 
 
-    public void resetOffset(int newOffset){
+    public void resetOffset(int newOffset) {
         offset.set(newOffset);
         wakeUp();
     }
