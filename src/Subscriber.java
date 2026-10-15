@@ -48,7 +48,7 @@ public class Subscriber implements Runnable {
 
     public void consume(String message) {
         try {
-            Thread.sleep(500);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

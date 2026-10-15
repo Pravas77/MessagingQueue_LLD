@@ -20,7 +20,7 @@ public class Main {
         messagingQueue.addSubscriber(topic2,subscriber3);
 
 
-        Thread.sleep(500);
+        Thread.sleep(100);
         // topic1
         messagingQueue.publishMessage(topic1,"1st message from topic1");
         messagingQueue.publishMessage(topic1,"2nd message from topic1");
@@ -30,12 +30,12 @@ public class Main {
         messagingQueue.publishMessage(topic2,"2nd message from topic2");
 
 
-       Thread.sleep(5000);
+       Thread.sleep(2000);
        System.out.println("cheking with time delay");
        messagingQueue.publishMessage(topic1,"4th message from topic1");
 
 
-        Thread.sleep(5000);
+        Thread.sleep(500);
         System.out.println("checking the resetOffset api");
         messagingQueue.resetOffset(subscriber1,1);
 
